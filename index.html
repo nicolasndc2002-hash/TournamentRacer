@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tournament Racer — Race Simulator</title>
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/race.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body>
+  <div id="app-container">
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar">
+      <div class="brand-header">
+        <div class="brand-logo" id="app-brand-logo">🏎️</div>
+        <div class="brand-title">
+          <h1 id="app-brand-title">Tournament Racer</h1>
+          <span class="brand-subtitle">Race Simulator</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <div class="nav-section-title">Central</div>
+        <a class="nav-item active" data-view="dashboard">
+          <span class="nav-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a class="nav-item" data-view="modes-hub">
+          <span class="nav-icon">🏁</span>
+          <span>Modos de Corrida</span>
+        </a>
+        <a class="nav-item" data-view="championship">
+          <span class="nav-icon">🏆</span>
+          <span>1. Campeonato</span>
+        </a>
+        <a class="nav-item" data-view="mode-team-duel">
+          <span class="nav-icon">⚔️</span>
+          <span>2. Equipe x Equipe</span>
+        </a>
+        <a class="nav-item" data-view="mode-time-trial">
+          <span class="nav-icon">⏱️</span>
+          <span>3. Time-Trial</span>
+        </a>
+        <a class="nav-item" data-view="mode-ranked">
+          <span class="nav-icon">🎖️</span>
+          <span>4. Modo Ranqueado</span>
+        </a>
+        <a class="nav-item" data-view="tournament">
+          <span class="nav-icon">🏆</span>
+          <span>Torneios</span>
+        </a>
+        <a class="nav-item" data-view="ranking">
+          <span class="nav-icon">📈</span>
+          <span>Ranking</span>
+        </a>
+        <a class="nav-item" data-view="achievements">
+          <span class="nav-icon">🏆</span>
+          <span>Conquistas</span>
+        </a>
+
+        <div class="nav-section-title">Gestão</div>
+        <a class="nav-item" data-view="drivers">
+          <span class="nav-icon">👤</span>
+          <span>Pilotos</span>
+        </a>
+        <a class="nav-item" data-view="teams">
+          <span class="nav-icon">🏎️</span>
+          <span>Equipes</span>
+        </a>
+        <a class="nav-item" data-view="tracks">
+          <span class="nav-icon">🏁</span>
+          <span>Pistas & SVG</span>
+        </a>
+
+        <div class="nav-section-title">Histórico & Ajustes</div>
+        <a class="nav-item" data-view="ranks">
+          <span class="nav-icon">⭐</span>
+          <span>Editor de Ranks</span>
+        </a>
+        <a class="nav-item" data-view="hall-of-fame">
+          <span class="nav-icon">🏛️</span>
+          <span>Hall da Fama</span>
+        </a>
+        <a class="nav-item" data-view="history">
+          <span class="nav-icon">📜</span>
+          <span>Histórico</span>
+        </a>
+        <a class="nav-item" data-view="settings">
+          <span class="nav-icon">⚙️</span>
+          <span>Configurações</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="season-badge-sidebar">
+          <span style="color: var(--text-dim);">Temporada:</span>
+          <span id="sidebar-season-name" style="color: var(--accent-cyan);">2026</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div id="main-wrapper">
+      <header id="top-header">
+        <div class="header-left">
+          <h2 class="page-title" id="page-header-title">Dashboard Principal</h2>
+        </div>
+        <div class="header-right">
+          <div class="quick-status-chip">
+            <span class="status-dot"></span>
+            <span>Offline Local</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dynamic View Container -->
+      <main id="view-container">
+        <!-- Rendered dynamically by app.js -->
+      </main>
+    </div>
+  </div>
+
+  <!-- JavaScript Scripts (Vanilla JS in dependency order) -->
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/ranks.js"></script>
+  <script src="js/pilots.js"></script>
+  <script src="js/teams.js"></script>
+  <script src="js/tracks.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/race.js"></script>
+  <script src="js/replay.js"></script>
+  <script src="js/modeTeamDuel.js"></script>
+  <script src="js/modeTimeTrial.js"></script>
+  <script src="js/modeRanked.js"></script>
+  <script src="js/modeCasual.js"></script>
+  <script src="js/modesHub.js"></script>
+  <script src="js/championship.js"></script>
+  <script src="js/tournament.js"></script>
+  <script src="js/ranking.js"></script>
+  <script src="js/hallOfFame.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/achievements.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>

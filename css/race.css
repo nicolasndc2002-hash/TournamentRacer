@@ -1,0 +1,551 @@
+/* ==========================================================================
+   RACE SIMULATOR - RACE VIEW & TELEMETRY STYLES (css/race.css)
+   ========================================================================== */
+
+.race-container {
+  display: grid;
+  grid-template-columns: var(--leaderboard-width, 340px) 8px minmax(0, 1fr) 300px;
+  gap: 20px;
+  height: calc(100vh - var(--header-height) - 56px);
+  overflow: hidden;
+}
+
+@media (max-width: 1366px) {
+  .race-container {
+    grid-template-columns: var(--leaderboard-width, 300px) 8px minmax(0, 1fr) 260px;
+    gap: 14px;
+  }
+}
+
+.race-panel-resizer {
+  width: 8px;
+  height: 100%;
+  cursor: col-resize;
+  border-radius: 4px;
+  background: var(--border-color);
+  transition: background var(--transition-fast);
+  touch-action: none;
+}
+
+.race-panel-resizer:hover,
+.race-panel-resizer:active {
+  background: var(--accent-cyan);
+}
+
+/* Left Panel: Real-time Leaderboard */
+.race-leaderboard-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(16px);
+}
+
+.leaderboard-header {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leaderboard-list {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 8px;
+  padding-right: 6px;
+  max-height: calc(10 * 46px + 9 * 5px);
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-cyan) rgba(255, 255, 255, 0.05);
+}
+
+.leaderboard-list::-webkit-scrollbar {
+  width: 7px;
+}
+
+.leaderboard-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+}
+
+.leaderboard-list::-webkit-scrollbar-thumb {
+  background: var(--accent-cyan);
+  border-radius: 4px;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+.leaderboard-list::-webkit-scrollbar-thumb:hover {
+  background: #00b8cc;
+}
+
+.leaderboard-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  min-height: 42px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  transition: transform var(--transition-normal), background var(--transition-fast), border-color var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.leaderboard-row.position-up {
+  animation: flashGreen 0.6s ease;
+}
+
+.leaderboard-row.position-down {
+  animation: flashRed 0.6s ease;
+}
+
+.leaderboard-row.is-leader {
+  background: linear-gradient(90deg, rgba(255, 183, 3, 0.15) 0%, rgba(255, 183, 3, 0.02) 100%);
+  border-color: rgba(255, 183, 3, 0.4);
+}
+
+@keyframes flashGreen {
+  0% { background: rgba(0, 245, 155, 0.3); }
+  100% { background: rgba(255, 255, 255, 0.02); }
+}
+
+@keyframes flashRed {
+  0% { background: rgba(255, 51, 102, 0.3); }
+  100% { background: rgba(255, 255, 255, 0.02); }
+}
+
+.pos-badge {
+  font-size: 0.8rem;
+  font-weight: 800;
+  width: 24px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.leaderboard-row.is-leader .pos-badge {
+  color: var(--accent-gold);
+}
+
+.driver-color-indicator {
+  width: 4px;
+  height: 22px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.driver-name-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.driver-name-text {
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.driver-team-text {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+}
+
+.gap-time-badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+
+/* Center Panel: SVG Track & Simulation Canvas */
+.race-center-panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(16px);
+}
+
+.track-view-header {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.track-name-badge {
+  font-size: 1.1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(10, 12, 16, 0.8);
+  padding: 6px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.svg-track-wrapper {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  position: relative;
+}
+
+.svg-track-wrapper svg {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.08));
+}
+
+/* SVG Track Path Elements */
+.track-asphalt-bg {
+  stroke: #1e2638;
+  stroke-width: 28;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.track-kerb-border {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 32;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.track-racing-line {
+  stroke: rgba(0, 229, 255, 0.25);
+  stroke-width: 2;
+  stroke-dasharray: 6 6;
+  fill: none;
+}
+
+.track-start-finish {
+  stroke: #fff;
+  stroke-width: 4;
+}
+
+/* Driver Dot on SVG */
+.driver-dot-group {
+  transition: transform 0.04s linear;
+  cursor: pointer;
+}
+
+#race-svg.race-svg-camera-pannable {
+  cursor: grab;
+}
+
+#race-svg.race-svg-camera-panning {
+  cursor: grabbing;
+}
+
+.driver-dot-outer {
+  r: 10;
+  stroke: #ffffff;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.9));
+}
+
+.driver-dot-text {
+  font-family: var(--font-main);
+  font-size: 8px;
+  font-weight: 900;
+  fill: #ffffff;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.driver-nametag {
+  pointer-events: none;
+}
+
+.driver-nametag-line {
+  stroke: rgba(255, 255, 255, 0.92);
+  stroke-width: 1.4;
+  filter: drop-shadow(0 1px 2px rgba(0,  0, 0, 0.9));
+}
+
+.driver-nametag-anchor {
+  fill: var(--accent-red);
+  stroke: #fff;
+  stroke-width: 1;
+}
+
+.driver-nametag-text {
+  fill: #fff;
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 900;
+  text-anchor: start;
+  dominant-baseline: central;
+  paint-order: stroke;
+  stroke: rgba(0, 0, 0, 0.9);
+  stroke-width: 2.5px;
+}
+
+.driver-dot-group.is-pov-active .driver-nametag-anchor {
+  fill: var(--accent-cyan);
+}
+
+
+/* Right Panel: Telemetry & Controls */
+.race-telemetry-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.telemetry-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.telemetry-item-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+}
+
+.telemetry-big-val {
+  font-size: 1.6rem;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: #fff;
+}
+
+.lap-counter-wrapper {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.lap-total {
+  font-size: 1rem;
+  color: var(--text-dim);
+}
+
+.fastest-lap-box {
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  padding: 12px;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fastest-lap-time {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--accent-purple);
+}
+
+.world-record-box {
+  background: rgba(255, 183, 3, 0.08);
+  border-color: rgba(255, 183, 3, 0.3);
+}
+
+.world-record-box .fastest-lap-time {
+  color: var(--accent-gold);
+}
+
+.race-controls-panel {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Start Lights Overlay */
+.start-lights-overlay {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: auto;
+  background: rgba(10, 12, 16, 0.75);
+  backdrop-filter: blur(12px);
+  padding: 16px 28px;
+  border-radius: var(--radius-lg);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.start-lights-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.start-gantry {
+  background: #11141c;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  border: 2px solid #2d3748;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  display: flex;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.light-bulb {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #232936;
+  border: 3px solid #1a202c;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+  transition: all 0.15s ease;
+}
+
+.light-bulb.red {
+  background: #ff1e1e;
+  border-color: #ff4d4d;
+  box-shadow: 0 0 20px #ff1e1e, inset 0 0 8px #ffffff;
+}
+
+.start-message {
+  font-size: 1.1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+
+.start-message.green {
+  color: var(--accent-green);
+  text-shadow: 0 0 20px var(--accent-green);
+  animation: pulseGreen 0.5s infinite alternate;
+}
+
+@keyframes pulseGreen {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+
+/* Track Path Interactive Builder */
+.track-builder-canvas {
+  width: 100%;
+  height: 280px;
+  background: #0d1117;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  position: relative;
+  cursor: crosshair;
+  user-select: none;
+}
+
+.track-builder-canvas svg {
+  width: 100%;
+  height: 100%;
+}
+
+.builder-point-marker {
+  fill: var(--accent-cyan);
+  stroke: #ffffff;
+  stroke-width: 2;
+  cursor: pointer;
+  transition: r 0.15s ease;
+}
+.builder-point-marker:hover {
+  r: 8;
+  fill: var(--accent-gold);
+}
+
+.builder-point-text {
+  font-size: 10px;
+  font-weight: 800;
+  fill: #ffffff;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.builder-start-line {
+  stroke: var(--accent-gold);
+  stroke-width: 5;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.builder-direction-arrow {
+  fill: var(--accent-green);
+  stroke: #07130e;
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .race-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(180px, 30vh) minmax(360px, 1fr) auto;
+    height: auto;
+    min-height: calc(100vh - var(--header-height) - 32px);
+    overflow: visible;
+  }
+
+  .race-panel-resizer {
+    display: none;
+  }
+
+  .race-center-panel {
+    min-height: 420px;
+  }
+
+  .race-telemetry-panel {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .race-controls-panel {
+    grid-column: 1 / -1;
+  }
+}
